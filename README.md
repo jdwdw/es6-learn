@@ -26,10 +26,14 @@ npm test
 2.	[Reflect对象](./test/reflect.js)
 3.	[Promise 对象](./test/promise.js)
 4.	[Generator对象](./test/generator.js)
+5.  [Class对象](./test/class.js)
+
+
 
 总结
 ----
 
 ```
-......
+1. 部分功能Babel默认是没有支持的，必须使用babel-polyfill，为当前环境提供一个垫片。
+2. babel的bug（不支持extends内建类型
 ```
