@@ -35,5 +35,5 @@ npm test
 
 ```
 1. 部分功能Babel默认是没有支持的，必须使用babel-polyfill，为当前环境提供一个垫片。
-2. babel的bug（不支持extends内建类型
+2. babel的bug（不支持extends内建类型）
 ```
