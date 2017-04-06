@@ -118,38 +118,39 @@ describe('Class test', function() {
 		assert.isTrue(colorPoint.__proto__.__proto__ === point.__proto__);
 	})
 
-		it('原生构造函数的继承', function() {
-			class VersionedArray extends Array {
-				constructor() {
-					super();
-					this.history = [
-						[]
-					];
-				}
-				
-	
-				commit() {
-					this.history.push(this.slice());
-				}
-	
-				revert() {
-					this.splice(0, this.length, ...this.history[this.history.length - 1]);
-				}
-				
-			}
-	
-			let newArray = new VersionedArray();
-			newArray.push(0);
-			newArray.push(1);
-			//assert.equal(newArray.length, 2);
-			//console.log(newArray['commit'])
-			console.log(newArray.commit)
-			newArray.commit();
-			newArray.push(3);
-			newArray
-			//assert.equal(newArray.length, 3);
-	
-		})
+	//（不支持extends内建类型）这是babel的bug 在chrome浏览器可以正常运行 
+	//		it('原生构造函数的继承', function() {
+	//			class VersionedArray extends Array {
+	//				constructor() {
+	//					super();
+	//					this.history = [
+	//						[]
+	//					];
+	//				}
+	//				
+	//	
+	//				commit() {
+	//					this.history.push(this.slice());
+	//				}
+	//	
+	//				revert() {
+	//					this.splice(0, this.length, ...this.history[this.history.length - 1]);
+	//				}
+	//				
+	//			}
+	//	
+	//			let newArray = new VersionedArray();
+	//			newArray.push(0);
+	//			newArray.push(1);
+	//			//assert.equal(newArray.length, 2);
+	//			//console.log(newArray['commit'])
+	//			console.log(newArray.commit)
+	//			newArray.commit();
+	//			newArray.push(3);
+	//			newArray
+	//			//assert.equal(newArray.length, 3);
+	//	
+	//		})
 
 	it('class getter 和setter', function() {
 		class MyClass {
@@ -177,14 +178,75 @@ describe('Class test', function() {
 
 	})
 
-//	it('class 的Generator方法', function() {
-//		class MyClass{
-//			constructor(...inputArguments){
-//				this.inputArguments=inputArguments;
+	it('class 的Generator方法', function() {
+		let testArray = [];
+		class MyClass {
+			constructor(...inputArguments) {
+				this.inputArguments = inputArguments;
+			}
+
+			*[Symbol.iterator]() {
+				for(let inputArgument of this.inputArguments) {
+					yield inputArgument;
+				}
+			}
+		}
+
+		for(let argument of new MyClass(1, 2)) {
+			testArray.push(argument);
+		}
+
+		assert.deepEqual(testArray, [1, 2]);
+
+	})
+
+	it('class 的ES7实例属性提案', function() {
+		class MyClass {
+			myProperty = 2;
+
+			constructor() {
+
+			}
+
+		}
+
+		let myClass = new MyClass();
+		assert.equal(myClass.myProperty, 2);
+		assert.equal(MyClass.myProperty, undefined);
+	})
+
+	it('class 的ES7静态属性提案', function() {
+		class MyClass {
+			static myStaticProperty = 2;
+
+			constructor() {
+
+			}
+
+		}
+		let myClass = new MyClass();
+		assert.equal(MyClass.myStaticProperty, 2);
+		assert.equal(myClass.myStaticProperty, undefined);
+	})
+	
+// #符号并没有实现
+//	it('class 的ES7 #符号实现私有属性和私有方法提案', function() {
+//		class Point{
+//			#privateProperty;
+//			
+//			constructor(privareProperty=0){
+//				#privateProperty+=privareProperty;
 //			}
 //			
-//			*[]
+//			get privateProperty(){
+//				return #privateProperty;
+//			}
+//			
+//			set privateProperty(value){
+//				#privateProperty+=value;
+//			}
 //		}
-//
+//		
+//		let point=new Point();
 //	})
 })
