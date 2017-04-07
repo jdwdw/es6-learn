@@ -34,6 +34,7 @@ npm test
 ----
 
 ```
+ps: .gitignore的 创建用命令 vim .gitignore会乱码，可以使用 touch .gitignore
 1. 部分功能Babel默认是没有支持的，必须使用babel-polyfill，为当前环境提供一个垫片。
 2. babel的bug（不支持extends内建类型）
 3. Decorator 修饰器是ES7的提案要babel默认没有支持，需要装插件   http://www.tuicool.com/articles/yemmmaq
